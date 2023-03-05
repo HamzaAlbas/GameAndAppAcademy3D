@@ -21,7 +21,7 @@ public class CameraLook : MonoBehaviour
     private void CameraRotation()
     {
         cinemachineTargetX += playerInput.lookVal.x;
-        cinemachineTargetY += playerInput.lookVal.y;
+        cinemachineTargetY += playerInput.lookVal.y * -1;
 
         cinemachineTargetX = CameraClampAngle(cinemachineTargetX, float.MinValue, float.MaxValue);
         cinemachineTargetY = CameraClampAngle(cinemachineTargetY, minY, maxY);
