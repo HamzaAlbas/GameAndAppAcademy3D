@@ -8,9 +8,27 @@ public class CameraLook : MonoBehaviour
     private float cinemachineTargetX;
     private float cinemachineTargetY;
 
-    public InputSystemController playerInput;
+    public PlayerInputs playerInputs;
     [SerializeField] private float minY = -30.0f;
     [SerializeField] private float maxY = 70.0f;
+    [SerializeField] private float lookSpeed = 100.0f;
+
+
+    private void Awake()
+    {
+        playerInputs = new PlayerInputs();
+    }
+
+    private void OnEnable()
+    {
+        playerInputs.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputs.Disable();
+    }
+
 
     private void Update()
     {
@@ -20,8 +38,8 @@ public class CameraLook : MonoBehaviour
 
     private void CameraRotation()
     {
-        cinemachineTargetX += playerInput.lookVal.x;
-        cinemachineTargetY += playerInput.lookVal.y * -1;
+        cinemachineTargetX += playerInputs.PlayerControls.Look.ReadValue<Vector2>().x * Time.deltaTime * lookSpeed;
+        cinemachineTargetY += (playerInputs.PlayerControls.Look.ReadValue<Vector2>().y * Time.deltaTime * lookSpeed) * -1;
 
         cinemachineTargetX = CameraClampAngle(cinemachineTargetX, float.MinValue, float.MaxValue);
         cinemachineTargetY = CameraClampAngle(cinemachineTargetY, minY, maxY);
